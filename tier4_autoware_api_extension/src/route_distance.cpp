@@ -19,16 +19,16 @@ namespace tier4_autoware_api_extension
 
 RouteDistance::RouteDistance(const rclcpp::NodeOptions & options) : Node("route_distance", options)
 {
-  sub_route_distance_ = create_subscription<InternalMessage>(
+  sub_route_distance_ = create_subscription<autoware_internal_debug_msgs::msg::Float64Stamped>(
     "/tier4_api/utils/path_distance_calculator/distance", 1,
     std::bind(&RouteDistance::on_message, this, std::placeholders::_1));
 
-  pub_route_distance_ = create_publisher<ExternalMessage>("/api/external/get/route_distance", 1);
+  pub_route_distance_ = create_publisher<tier4_external_api_msgs::msg::RouteDistance>("/api/external/get/route_distance", 1);
 }
 
-void RouteDistance::on_message(const InternalMessage & internal)
+void RouteDistance::on_message(const autoware_internal_debug_msgs::msg::Float64Stamped & internal)
 {
-  ExternalMessage external;
+  tier4_external_api_msgs::msg::RouteDistance external;
   external.stamp = internal.stamp;
   external.remaining_distance = internal.data;
   pub_route_distance_->publish(external);
