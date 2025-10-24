@@ -25,4 +25,24 @@ rclcpp_components_register_node(${PROJECT_NAME}
   EXECUTABLE planning_factor_node
 )
 
+find_package(topic_tools REQUIRED)
+ament_auto_add_executable(linktime_composition
+  src/linktime_composition.cpp)
+set(libs
+  ${PROJECT_NAME}
+  /opt/ros/humble/lib/librelay_node.so
+)
+set(libs
+  "-Wl,--no-as-needed"
+  ${libs}
+  "-Wl,--as-needed")
+
+target_link_libraries(linktime_composition ${libs})
+ament_target_dependencies(linktime_composition
+  "class_loader"
+  "rclcpp"
+  "rclcpp_components"
+  "topic_tools"
+)
+
 ament_auto_package(INSTALL_TO_SHARE config launch)
