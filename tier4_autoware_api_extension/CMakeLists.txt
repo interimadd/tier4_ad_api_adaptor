@@ -25,4 +25,14 @@ rclcpp_components_register_node(${PROJECT_NAME}
   EXECUTABLE planning_factor_node
 )
 
+ament_auto_add_executable(manual_composition
+  src/manual_composition.cpp)
+
+find_package(topic_tools REQUIRED)
+find_package(autoware_path_distance_calculator REQUIRED)
+ament_target_dependencies(manual_composition
+  "topic_tools"
+  "autoware_path_distance_calculator"
+)
+
 ament_auto_package(INSTALL_TO_SHARE config launch)
